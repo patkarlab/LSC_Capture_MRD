@@ -1,1 +1,0 @@
-/home/diagnostics/pipelines/Validation//23RSEQ460/gatk38_processing/23RSEQ460.final.bam	500	23RSEQ460

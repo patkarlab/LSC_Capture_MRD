@@ -21,8 +21,6 @@ vardict = params.vardict
 varscan = params.varscan
 
 include { ADD_UMI } from './modules/fgbio/fastqtobam/main.nf'
-// include { BAMTOFASTQ } from './modules/samtools/fastq/main.nf'
-// include { PREPROCESS } from './modules/fastq_mcf/preprocess/main.nf'
 include { MAPBAM; MAPBAM_CONS } from './modules/fgbio/mapbam/main.nf'
 include { ZIPPERBAM } from './modules/fgbio/zipperbams/main.nf'
 include { SORT_INDEX; SORT_INDEX_CONS } from './modules/samtools/sort_index/main.nf'
@@ -56,8 +54,6 @@ workflow MRD_PROBE {
 	main:
 	DICT_GEN(genome_file)
 	ADD_UMI(bam_ch)
-	// BAMTOFASTQ(ADD_UMI.out)
-	// PREPROCESS(BAMTOFASTQ.out, adaptors_file)
 	MAPBAM(ADD_UMI.out, genome_file, index_files)
 	ZIPPERBAM(MAPBAM.out, genome_file, index_files)
 	SORT_INDEX(ZIPPERBAM.out)

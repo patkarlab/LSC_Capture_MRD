@@ -1,4 +1,4 @@
-# Capture MRD for LSC project
+# Capture based assay for MRD detection
 
 This repository describes the workflow for analysing MRD samples sequenced using capture based assay.  
 It requires three input files read1, read2 and read3 in compressed fastq format (.fastq.gz) per sample. read1 is assumed to contain a 8 bp UMI. read2 and read3 being the forward and reverse reads.  

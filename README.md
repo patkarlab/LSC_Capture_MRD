@@ -5,13 +5,15 @@ It requires three input files read1, read2 and read3 in compressed fastq format 
 
 ## Usage
 The following parameters need to be modified in the `params` section of the `mrd_capture.config`: 
-- *genome* = Complete path to the human genome fasta file(hg19_all.fasta). Please ensure that the BWA index files (hg19_all.fasta.fai, hg19_all.fasta.amb, hg19_all.fasta.ann, hg19_all.fasta.bwt, hg19_all.fasta.pac, hg19_all.fasta.sa) are also present in the same genome folder. The assests folder currently contains placeholder genome and index files.
+- *genome* = Complete path to the human genome fasta file(hg19_all.fasta). Please ensure that the BWA index files (hg19_all.fasta.fai, hg19_all.fasta.amb, hg19_all.fasta.ann, hg19_all.fasta.bwt, hg19_all.fasta.pac, hg19_all.fasta.sa) are also present in the same genome folder. The assets folder currently contains placeholder genome and index files.
 
-- *annovar_db* = Complete path to the humandb database folder for ANNOVAR (refer https://annovar.openbioinformatics.org/en/latest/user-guide/startup/ )
+- *annovar_db* = Complete path to the humandb database folder for ANNOVAR ( To download additional databases in humandb folder, please refer: https://annovar.openbioinformatics.org/en/latest/user-guide/startup/ ; humandb database used from ANNOVAR version 2020June08)
 
 - *bedfile* = This file needs to be updated based on the probes used for the assay
 
 - *outdir* = Location to write the output folder
+
+- *gen_ref* = Complete path to the cross-reference file for gene-based annotation (Present in the Annovar folder in  example/gene_fullxref.txt)
 
 ## Running the pipeline
 1. Transfer the sample input files `*.fastq.gz` inside the `sequences/` folder.
@@ -28,4 +30,4 @@ nextflow -C mrd_capture.config run mrd_capture.nf -entry MRD_PROBE -bg -profile 
 ```
 
 ## Output
-Samplewise output folders are written to `Final_output/` folder.
+Samplewise output folders are written to `"outdir"` folder.

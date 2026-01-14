@@ -9,7 +9,6 @@ Sequences in:${params.sequences}
 """
 
 //file paths
-adaptors_file = file("${params.smmips_adaptors}", checkIfExists:true)
 genome_file = file("${params.genome}", checkIfExists: true)
 index_files = file("${params.genome_dir}/${params.ind_files}.*")
 dict_file = file("${params.genome_dir}/${params.ind_files}.dict")

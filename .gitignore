@@ -5,6 +5,7 @@
 sample_list.csv
 Final_Output*
 samplesheet.csv
-sequences/
+sequences/*
 work/
 run_nextflow.sh
+!sequences/sample_*.fastq.gz

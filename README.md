@@ -1,7 +1,72 @@
 # Capture based assay for MRD detection
+## Introduction
 
-This repository describes the workflow for analysing MRD samples sequenced using capture based assay.  
-It requires three input files read1, read2 and read3 in compressed fastq format (.fastq.gz) per sample. read1 is assumed to contain a 8 bp UMI. read2 and read3 being the forward and reverse reads.  
+&emsp;This repository describes a Nextflow pipeline for the analysis of error-corrected sequencing data using [fgbio tools](https://github.com/fulcrumgenomics/fgbio). Individual sample libraries incorporate an 8bp Unique molecular index (UMI) tag. These libraries were subjected to target enrichment using a 21-gene panel comprising 192 probes, following the IDT XGen capture protocol. 
+&emsp;Sequencing of these libraries generated three reads per sample: the UMI, the forward read and the reverse read. These reads are given as input to the pipeline in the .fastq.gz format. Read1 is assumed to contain a 8 bp UMI. read2 and read3 being the forward and reverse reads of 151 bases each. The downstream processing steps for these sample reads are mentioned in the following section. 
+
+## Pipeline summary
+```mermaid
+flowchart LR
+
+%% Preprocessing
+C[Input 
+Data] --> D[ADD UMI]
+
+D --> G[Map & sort BAM]
+G --> G1[Uncollapsed bam]
+G --> G2[Collapsed ]
+
+G2 --> K[GROUPREADSBYUMI]
+K --> L[CALLMOLCONSREADS]
+L --> M[COMBINEBAMS]
+
+%%Uncollapsed arm
+G1 --> S[hsmetrics]
+G1 --> U[Coverage]
+G1 --> V2[Variant calling
+Mutect2, Vardict, Varscan]
+V2 --> B3[Variant annotation ANNOVAR]
+B3 --> C2[Combine data]
+C2 --> F[Final Output]
+S --> F 
+U --> F
+
+%% Consensus alignment
+M --> N[MAPBAM_CONS]
+N --> O[FILTERCONSBAM]
+O --> P[ADDGROUPS]
+P --> Q[SORT_INDEX_CONS]
+
+%% Metrics
+Q --> R[HSMETRICS_COLL]
+
+
+Q --> T[COVERAGE_COLL]
+
+
+%% Variant calling (collapsed)
+Q --> V[MUTECT2_COLL]
+Q --> W[VARDICT_COLL]
+Q --> X[MPILEUP_COLL]
+X --> Y[VARSCAN_COLL]
+
+%% Variant calling (uncollapsed)
+
+
+%% Annotation (collapsed)
+V --> A1[ANNOVAR_MUTECT2_COLL]
+W --> A2[ANNOVAR_VARDICT_COLL]
+Y --> A3[ANNOVAR_VARSCAN_COLL]
+
+%% Combine callers
+A1 --> C1
+A2 --> C1
+A3 --> C1
+C1[COMBINE_CALLERS_COLL]
+
+
+
+```
 
 ## Usage
 The following parameters need to be modified in the `params` section of the `mrd_capture.config`: 
